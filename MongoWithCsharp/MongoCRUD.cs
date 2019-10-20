@@ -37,6 +37,15 @@ namespace MongoWithCsharp
             return collection.Find(filter).FirstOrDefault();
         }
 
+        public List<T> LoadRecordByNumber<T>(string table, int startFrom, int count)
+        {
+            var collection = db.GetCollection<T>(table);
+
+            var result = collection.Find(new BsonDocument()).Skip(startFrom).Limit(count).ToList();
+
+            return result;
+        }
+
         public void UpsertRecord<T>(string table, Guid id, T record)
         {
             var collection = db.GetCollection<T>(table);
